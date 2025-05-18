@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@remadb.w7lg8gq.mongodb.net/?retryWrites=true&w=majority&appName=remaDb`;
+const uri = `mongodb+srv://espresso:BiSpGYHxThM75Yg3@remadb.w7lg8gq.mongodb.net/?retryWrites=true&w=majority&appName=remaDb`;
 
 const client = new MongoClient(uri, {
   serverApi: {
