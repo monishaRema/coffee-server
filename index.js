@@ -20,15 +20,17 @@ const client = new MongoClient(uri, {
   },
 });
 
-app.get('/', (req, res)=> {
-  res.send('Coffee is getting hotter')
-})
+
 
 async function run() {
   try {
+        app.get('/',(req, res)=> {
+        res.send('Coffee is extreamly hot')
+    })
     await client.connect();
-
     const coffeeCollection = client.db('coffeeDB').collection('coffee')
+
+
 
     app.get('/coffees',async(req,res)=>{
       const result = await coffeeCollection.find().toArray();
@@ -48,20 +50,26 @@ async function run() {
       const result = await coffeeCollection.deleteOne(query)
       res.send(result)
     })
-
-
-
- 
-
-
     
   } 
   finally {
   }
+
+
 }
 run().catch(console.dir);
 
 
+
+
+
+app.get('/', (req, res)=> {
+  res.send('Coffee is getting hotter')
+})
+
+app.get('/coffeee',(req, res)=> {
+      res.send('Coffee is extreamly hot')
+})
 
 app.listen(port, () => {
   console.log("server is running");
