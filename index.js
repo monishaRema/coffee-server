@@ -25,12 +25,14 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
         app.get('/',(req, res)=> {
-        res.send('Coffee is extreamly hot')
+        res.send(' i am from try block')
     })
     await client.connect();
     const coffeeCollection = client.db('coffeeDB').collection('coffee')
 
-
+app.get('/c',(req, res)=> {
+        res.send(' i am from  after connection')
+    })
 
     app.get('/coffees',async(req,res)=>{
       const result = await coffeeCollection.find().toArray();
@@ -60,7 +62,9 @@ async function run() {
 
 
 }
-run().catch(console.dir);
+run().catch(  app.get('/coffeee',(req, res)=> {
+      res.send('I am from catch block')
+}));
 
 
 
