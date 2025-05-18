@@ -26,48 +26,29 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-        app.get('/c',(req, res)=> {
-        res.send(' i am from try block')
-    })
+    console.log("Connecting to MongoDB...");
     await client.connect();
-    app.get('/',(req, res)=> {
-        res.send(' i am from  after connection')
-    })
+    console.log("Connected successfully!");
 
-    const coffeeCollection = client.db('coffeeDB').collection('coffee')
+    // Routes after successful connection
+    app.get('/', (req, res) => {
+      res.send('Connected to MongoDB!');
+    });
 
+    const coffeeCollection = client.db('coffeeDB').collection('coffee');
 
-    app.get('/coffees',async(req,res)=>{
+    app.get('/coffees', async (req, res) => {
       const result = await coffeeCollection.find().toArray();
-      res.send(result)
-    })
-    
-    app.get('/coffees/:id',async(req,res)=>{
-      const id = req.params.id;
-      const query = {_id: new ObjectId(id)};
-      const result = await coffeeCollection.findOne(query);
-      res.send(result)
-    })
+      res.send(result);
+    });
 
-    app.delete('/coffees/:id',async(req,res)=>{
-      const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
-      const result = await coffeeCollection.deleteOne(query)
-      res.send(result)
-    })
-    
-  } 
-  finally {
+    // ... rest of routes
+
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
   }
-  app.get('/coffeee',(req, res)=> {
-      res.send('Coffee is extreamly hot')
-})
-
-
 }
-run().catch(  app.get('/',(req, res)=> {
-      res.send('I am from catch block')
-}));
+run()
 
 
 
