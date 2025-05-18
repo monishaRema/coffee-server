@@ -20,13 +20,17 @@ const client = new MongoClient(uri, {
   },
 });
 
+app.get('/', (req, res)=> {
+  res.send('Coffee is getting hotter')
+})
+
 async function run() {
   try {
     await client.connect();
 
     const coffeeCollection = client.db('coffeeDB').collection('coffee')
 
-    app.get('/',async(req,res)=>{
+    app.get('/coffees',async(req,res)=>{
       const result = await coffeeCollection.find().toArray();
       res.send(result)
     })
