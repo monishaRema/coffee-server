@@ -54,6 +54,9 @@ async function run() {
   } 
   finally {
   }
+  app.get('/coffeee',(req, res)=> {
+      res.send('Coffee is extreamly hot')
+})
 
 
 }
@@ -67,9 +70,7 @@ app.get('/', (req, res)=> {
   res.send('Coffee is getting hotter')
 })
 
-app.get('/coffeee',(req, res)=> {
-      res.send('Coffee is extreamly hot')
-})
+
 
 app.listen(port, () => {
   console.log("server is running");
