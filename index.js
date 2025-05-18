@@ -26,14 +26,15 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    console.log("Connecting to MongoDB...");
+    app.get('/', (req, res)=> {
+  res.send('Mongo is connecting')
+})
     await client.connect();
-    console.log("Connected successfully!");
+       app.get('/', (req, res)=> {
+  res.send('Mongo is connected')
+})
 
-    // Routes after successful connection
-    app.get('/', (req, res) => {
-      res.send('Connected to MongoDB!');
-    });
+
 
     const coffeeCollection = client.db('coffeeDB').collection('coffee');
 
