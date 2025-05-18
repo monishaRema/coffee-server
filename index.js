@@ -1,25 +1,64 @@
-const { MongoClient } = require("mongodb");
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
+
+
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@remadb.w7lg8gq.mongodb.net/?retryWrites=true&w=majority&appName=remaDb`;
 
-let cachedClient = null;
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
 
-async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).end();
-  }
-
+async function run() {
   try {
-    if (!cachedClient) {
-      cachedClient = new MongoClient(uri);
-      await cachedClient.connect();
-    }
-    const db = cachedClient.db('coffeeDB');
-    const coffees = await db.collection('coffee').find().toArray();
-    res.status(200).json(coffees);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching data", error });
+    await client.connect();
+
+    const coffeeCollection = client.db('coffeeDB').collection('coffee')
+
+    app.get('/coffees',async(req,res)=>{
+      const result = await coffeeCollection.find().toArray();
+      res.send(result)
+    })
+    
+    app.get('/coffees/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await coffeeCollection.findOne(query);
+      res.send(result)
+    })
+
+    app.delete('/coffees/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await coffeeCollection.deleteOne(query)
+      res.send(result)
+    })
+
+
+
+ 
+
+
+    
+  } 
+  finally {
   }
 }
+run().catch(console.dir);
 
-module.exports = handler;
+
+
+app.listen(port, () => {
+  console.log("server is running");
+});
