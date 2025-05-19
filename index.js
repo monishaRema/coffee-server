@@ -19,11 +19,16 @@ const client = new MongoClient(uri, {
   },
 });
 
+    app.get("/", async (req, res) => {
+      res.send("Hello before connecting to DB");
+     
+    });
+
 async function run() {
   try {
     // app.get("/", async (req, res) => {
     //   res.send("Hello before connecting to DB");
-    //   console.log(result);
+  
     // });
 
     await client.connect();
@@ -32,7 +37,7 @@ async function run() {
 
     // app.get("/", async (req, res) => {
     //   res.send("Hello after connected to DB");
-    //   console.log(result);
+
     // });  
 
 
