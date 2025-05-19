@@ -21,17 +21,27 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // await client.connect();
+    // app.get("/", async (req, res) => {
+    //   res.send("Hello before connecting to DB");
+    //   console.log(result);
+    // });
+
+    await client.connect();
 
     const coffeeCollection = client.db("coffeeDB").collection("coffee");
 
+    // app.get("/", async (req, res) => {
+    //   res.send("Hello after connected to DB");
+    //   console.log(result);
+    // });  
+
+
     app.get("/coffees", async (req, res) => {
-      const result = coffeeCollection.find().toArray();
+      const result = await coffeeCollection.find().toArray();
       res.send(result);
       console.log(result);
     });
   } finally {
-
   }
 }
 
