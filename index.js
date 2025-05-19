@@ -20,7 +20,7 @@ const client = new MongoClient(uri, {
 });
 
     app.get("/", async (req, res) => {
-      res.send("Hello before connecting to DB");
+      res.send("Hello from Coffee Shop!");
      
     });
 
